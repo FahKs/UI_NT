@@ -42,171 +42,181 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <style>
        
        .container {
-            display: flex;
-            justify-content: flex-end; /* ชิดขวา */
-            align-items: center;
-            height: 100vh;
-            padding-left: 800px; /* ปรับระยะห่างจากขอบขวา */
-        }
+    display: flex;
+    justify-content: center; /* เริ่มต้นอยู่ตรงกลางสำหรับมือถือ */
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+}
 
-        .form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-width: 350px;
-            padding: 20px;
-            border-radius: 20px;
-            position: relative;
-            background-color: #1a1a1a;
-            color: #fff;
-            border: 1px solid #333;
-        }
+/* สำหรับหน้าจอขนาดใหญ่กว่า 768px */
+@media (min-width: 768px) {
+    .container {
+        justify-content: flex-end; /* ชิดขวาสำหรับหน้าจอใหญ่ */
+        padding-right: 10%; /* ระยะห่างจากขอบขวา */
+    }
+}
 
-        .title {
-            font-size: 28px;
-            font-weight: 600;
-            letter-spacing: -1px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            padding-left: 30px;
-            color: rgb(237, 229, 87);
-        }
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%; /* ให้ขยายเต็มบนมือถือ */
+    max-width: 350px; /* จำกัดความกว้างสูงสุด */
+    padding: 20px;
+    border-radius: 20px;
+    position: relative;
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid #333;
+    margin: 10px; /* เพิ่มระยะห่างรอบฟอร์ม */
+}
 
-        .title::before {
-            width: 18px;
-            height: 18px;
-        }
+/* ปรับขนาดสำหรับมือถือ */
+@media (max-width: 480px) {
+    .form {
+        padding: 15px;
+        max-width: 100%;
+        margin: 10px;
+    }
+    
+    .title {
+        font-size: 24px;
+    }
+    
+    .input {
+        font-size: 16px;
+    }
+}
 
-        .title::after {
-            width: 18px;
-            height: 18px;
-            animation: pulse 1s linear infinite;
-        }
+/* คงส่วนที่เหลือไว้เหมือนเดิม */
+.title {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    color: rgb(237, 229, 87);
+}
 
-        .title::before,
-        .title::after {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            border-radius: 50%;
-            left: 0px;
-            background-color: rgb(237, 229, 87);
-        }
+.title::before {
+    width: 18px;
+    height: 18px;
+}
 
-        .message,
-        .signin {
-            font-size: 14.5px;
-            color: #fff;
-        }
+.title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+}
 
-        .signin {
-            text-align: center;
-        }
+.title::before,
+.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: rgb(237, 229, 87);
+}
 
-        .signin a:hover {
-            text-decoration: underline royalblue;
-        }
+.message,
+.signin {
+    font-size: 14.5px;
+    color: #fff;
+}
 
-        .signin a {
-            color: rgb(237, 229, 87);
-        }
+.signin {
+    text-align: center;
+}
 
-        .flex {
-            display: flex;
-            width: 100%;
-            gap: 6px;
-        }
+.signin a:hover {
+    text-decoration: underline royalblue;
+}
 
-        .form label {
-            position: relative;
-        }
+.signin a {
+    color: rgb(237, 229, 87);
+}
 
-        .form label .input {
-            background-color: #333;
-            color: #fff;
-            width: 100%;
-            padding: 20px 05px 05px 10px;
-            outline: 0;
-            border: 1px solid rgba(105, 105, 105, 0.397);
-            border-radius: 10px;
-        }
+.flex {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+}
 
-        .form label .input + span {
-            color: rgba(255, 255, 255, 0.5);
-            position: absolute;
-            left: 10px;
-            top: 0px;
-            font-size: 0.9em;
-            cursor: text;
-            transition: 0.3s ease;
-        }
+.form label {
+    position: relative;
+}
 
-        .form label .input:placeholder-shown + span {
-            top: 12.5px;
-            font-size: 0.9em;
-        }
+.form label .input {
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+    padding: 20px 05px 05px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+}
 
-        .form label .input:focus + span,
-        .form label .input:valid + span {
-            color: rgb(237, 229, 87);
-            top: 0px;
-            font-size: 0.7em;
-            font-weight: 600;
-        }
+.form label .input + span {
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+}
 
-        .input {
-            font-size: medium;
-        }
+.form label .input:placeholder-shown + span {
+    top: 12.5px;
+    font-size: 0.9em;
+}
 
-        .submit {
-            border: none;
-            outline: none;
-            padding: 10px;
-            border-radius: 10px;
-            color: #000;
-            font-size: 16px;
-            transform: .3s ease;
-            background-color: rgb(237, 229, 87);
-        }
+.form label .input:focus + span,
+.form label .input:valid + span {
+    color: rgb(237, 229, 87);
+    top: 0px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
 
-        .submit:hover {
-            background-color: rgb(237, 229, 87);
-        }
+.input {
+    font-size: medium;
+}
 
-        @keyframes pulse {
-            from {
-                transform: scale(0.9);
-                opacity: 1;
-            }
+.submit {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    color: #000;
+    font-size: 16px;
+    transform: .3s ease;
+    background-color: rgb(237, 229, 87);
+}
 
-            to {
-                transform: scale(1.8);
-                opacity: 0;
-            }
-        }
+.submit:hover {
+    background-color: rgb(237, 229, 87);
+}
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+.password-container {
+    position: relative;
+}
 
-        .password-container {
-            position: relative;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
     </style>
 </head>
 <body>
@@ -237,22 +247,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </label>
                     </div>
                     <div class="flex-row">
-                        <div>
-                            <input type="radio">
-                            <label>Remember Me</label>
-                        </div>
                         <a href="../auth/forgot-password.php" class="link link-hover">
                             <span class="span">Forgot password?</span>
                         </a>
                     </div>
-                    <button type="submit" class="submit">เข้าสู่ระบบ</button>
+                    <button type="submit" class="submit">Login</button>
                     <p class="signin">Dont'have any acount? <a href="../auth/register.php" class="link link-hover"><span class="span">Sign In</span></a></p>
                 </form>
             </div>
         </div>
     </div>
     <script>
-        function togglePassword(fieldId) {
+         function togglePassword(fieldId) {
             const passwordField = document.getElementById(fieldId);
             const toggleIcon = document.querySelector('.toggle-password i');
             
@@ -266,6 +272,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 toggleIcon.classList.add('fa-eye');
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Load saved email and password
+            if (localStorage.getItem("remember") === "true") {
+                document.getElementById('email').value = localStorage.getItem("email") || "";
+                document.getElementById('password').value = atob(localStorage.getItem("password")) || "";
+                document.getElementById("remember_me").checked = true;
+            }
+        });
+
+        document.querySelector(".form").addEventListener("submit", function (event) {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById("remember_me").checked;
+
+            if (rememberMe) {
+                localStorage.setItem("email", email);
+                localStorage.setItem("password", btoa(password)); // Encode in Base64
+                localStorage.setItem("remember", "true");
+            } else {
+                localStorage.removeItem("email");
+                localStorage.removeItem("password");
+                localStorage.setItem("remember", "false");
+            }
+        });
     </script>
 </body>
 </html>
